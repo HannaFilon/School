@@ -39,7 +39,7 @@ namespace School.WebApp.Controllers
             return View(courseDto);
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<IActionResult> Update(CourseModel courseModel) 
         {
             if (courseModel == null)
@@ -52,7 +52,7 @@ namespace School.WebApp.Controllers
             return View(courseDto);
         }
 
-        [HttpDelete]
+        [HttpPost]
         public async Task<IActionResult> Delete(Guid courseId) 
         {
             await _courseService.DeleteCourse(courseId);

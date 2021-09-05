@@ -1,0 +1,16 @@
+﻿@model School.WebApp.Models.CourseModel
+@{
+    ViewData["Title"] = "Info";
+}
+<h1>Course Info</h1>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.IsActivated
+        </dd>
+    </dl>
+</div>
