@@ -19,7 +19,7 @@ namespace School.WebApp.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> CourseInfo(Guid courseId)
+        public async Task<IActionResult> Info(Guid courseId)
         {
             var courseDto = await _courseService.GetCourse(courseId);
 
@@ -27,7 +27,7 @@ namespace School.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCourse(CourseModel courseModel)
+        public async Task<IActionResult> Create(CourseModel courseModel)
         {
             if (courseModel == null)
             {
@@ -40,7 +40,7 @@ namespace School.WebApp.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateCourse(CourseModel courseModel) 
+        public async Task<IActionResult> Update(CourseModel courseModel) 
         {
             if (courseModel == null)
             {
@@ -53,7 +53,7 @@ namespace School.WebApp.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteCourse(Guid courseId) 
+        public async Task<IActionResult> Delete(Guid courseId) 
         {
             await _courseService.DeleteCourse(courseId);
 
