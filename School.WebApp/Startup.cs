@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using School.Business;
+using School.Business.Services.Implementation;
+using School.Business.Services.Interfaces;
 using School.DAL;
 using School.DAL.Reposirories;
 using School.DAL.UnitOfWork;
@@ -26,7 +28,6 @@ namespace School.WebApp
             services.AddControllersWithViews();
             services.AddDbContext<SchoolContext>(opt =>
                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddAutoMapper(typeof(AutoMap));
             services.AddSwaggerGen();
@@ -34,6 +35,9 @@ namespace School.WebApp
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
+            services.AddScoped<IStudentService,StudentService>();
+            services.AddScoped<ITeacherService,TeacherService>();
+            services.AddScoped<ICourseService, CourseService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

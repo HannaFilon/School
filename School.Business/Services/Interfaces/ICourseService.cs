@@ -10,9 +10,9 @@ namespace School.Business.Services.Interfaces
         Task<CourseDto> GetCourse(Guid courseId);
         Task<IEnumerable<CourseDto>> GetAllCourses();
 
-        Task<CourseDto> CreateCourse(CourseModel courseModel, Guid teacherId);
+        Task<CourseDto> CreateCourse(CourseDto courseDto);
 
-        Task<CourseDto> UpdateCourse(CourseModel courseModel);
+        Task<CourseDto> UpdateCourse(CourseDto courseDto);
         Task ChangeCourseTeacher(Guid courseId, Guid teacherId);
 
         Task DeleteCourse(Guid courseId);

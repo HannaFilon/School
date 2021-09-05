@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace School.Business.ModelsDto
 {
-    public class StudentDto
+    public class StudentDto: PersonDto
     {
+        public List<CourseStudentDto> CourseStudents { get; set; } = new List<CourseStudentDto>();
     }
 }

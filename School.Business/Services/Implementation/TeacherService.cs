@@ -35,28 +35,28 @@ namespace School.Business.Services.Implementation
             return teacherDto;
         }
 
-        public async Task<TeacherDto> CreateTeacher(TeacherModel teacherModel)
+        public async Task<TeacherDto> CreateTeacher(TeacherDto teacherDto)
         {
-            var teacher = _mapper.Map<Teacher>(teacherModel);
+            var teacher = _mapper.Map<Teacher>(teacherDto);
             await _unitOfWork.TeacherRepository.Add(teacher);
             await _unitOfWork.SaveChanges();
-            var teacherDto = _mapper.Map<TeacherDto>(teacher);
+            _mapper.Map(teacher, teacherDto);
 
             return teacherDto;
         }
 
-        public async Task<TeacherDto> UpdateTeacher(TeacherModel teacherModel)
+        public async Task<TeacherDto> UpdateTeacher(TeacherDto teacherDto)
         {
-            var teacher = await _unitOfWork.StudentRepository.GetById(teacherModel.Id);
+            var teacher = await _unitOfWork.TeacherRepository.GetById(teacherDto.Id);
             if (teacher == null)
             {
                 throw new Exception("Teacher not found.");
             }
 
-            _mapper.Map(teacherModel, teacher);
-            await _unitOfWork.TeacherRepository.Update(teacher);
+            _mapper.Map(teacherDto, teacher);
+            _unitOfWork.TeacherRepository.Update(teacher);
             await _unitOfWork.SaveChanges();
-            var teacherDto = _mapper.Map<TeacherDto>(teacher);
+            _mapper.Map(teacher, teacherDto);
 
             return teacherDto;
         }
@@ -82,9 +82,15 @@ namespace School.Business.Services.Implementation
             await _unitOfWork.SaveChanges();
         }
 
-        public Task DeleteTeacher(Guid teacherId)
+        public async Task DeleteTeacher(Guid teacherId)
         {
-            
+            var teacher = _unitOfWork.TeacherRepository.GetById(teacherId);
+            if (teacher == null)
+            {
+                throw new Exception("Teacher not found.");
+            }
+
+            await _unitOfWork.TeacherRepository.Remove(teacherId);
         }
     }
 }

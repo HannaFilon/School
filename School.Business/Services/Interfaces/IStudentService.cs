@@ -8,9 +8,9 @@ namespace School.Business.Services.Interfaces
     {
         Task<StudentDto> GetStudent(Guid studentId);
 
-        Task<StudentDto> CreateStudent(StudentModel studentModel);
+        Task<StudentDto> CreateStudent(StudentDto studentDto);
 
-        Task<StudentDto> UpdateStudent(StudentModel studentModel);
+        Task<StudentDto> UpdateStudent(StudentDto studentDto);
         Task EnrollStudent(Guid studentId, Guid courseId);
 
         Task DeleteStudent(Guid studentId);

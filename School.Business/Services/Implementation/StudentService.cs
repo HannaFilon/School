@@ -35,28 +35,28 @@ namespace School.Business.Services.Implementation
             return studentDto;
         }
 
-        public async Task<StudentDto> CreateStudent(StudentModel studentModel)
+        public async Task<StudentDto> CreateStudent(StudentDto studentDto)
         {
-            var student = _mapper.Map<Student>(studentModel);
+            var student = _mapper.Map<Student>(studentDto);
             await _unitOfWork.StudentRepository.Add(student);
             await _unitOfWork.SaveChanges();
-            var studentDto = _mapper.Map<StudentDto>(student);
+            _mapper.Map(student, studentDto);
 
             return studentDto;
         }
 
-        public async Task<StudentDto> UpdateStudent(StudentModel studentModel)
+        public async Task<StudentDto> UpdateStudent(StudentDto studentDto)
         {
-            var student = await _unitOfWork.StudentRepository.GetById(studentModel.Id);
+            var student = await _unitOfWork.StudentRepository.GetById(studentDto.Id);
             if (student == null)
             {
                 throw new Exception("Student not found.");
             }
 
-            _mapper.Map(studentModel, student);
-            await _unitOfWork.StudentRepository.Update(student);
+            _mapper.Map(studentDto, student);
+            _unitOfWork.StudentRepository.Update(student);
             await _unitOfWork.SaveChanges();
-            var studentDto = _mapper.Map<StudentDto>(student);
+            _mapper.Map(student, studentDto);
 
             return studentDto;
         }
@@ -75,6 +75,10 @@ namespace School.Business.Services.Implementation
             if (course == null)
             {
                 throw new Exception("Course not found.");
+            }
+            if (!course.IsActivated) 
+            {
+                throw new Exception("Can not enroll student, the course isn't activated.");
             }
 
             var courseStudent = new CourseStudent()

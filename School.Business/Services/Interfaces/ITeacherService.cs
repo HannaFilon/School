@@ -8,9 +8,9 @@ namespace School.Business.Services.Interfaces
     {
         Task<TeacherDto> GetTeacher(Guid teacherId);
 
-        Task<TeacherDto> CreateTeacher(TeacherModel teacherModel);
+        Task<TeacherDto> CreateTeacher(TeacherDto teacherDto);
 
-        Task<TeacherDto> UpdateTeacher(TeacherModel teacherModel);
+        Task<TeacherDto> UpdateTeacher(TeacherDto teacherDto);
         Task AddCourseToTeacher(Guid teacherId, Guid courseId);
 
         Task DeleteTeacher(Guid teacherId);

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace School.Business.ModelsDto
 {
     public class CourseDto
     {
+        public Guid Id { get; set; }
+        public string Title { get; set; }
+        public TeacherDto Teacher { get; set; }
+        public bool IsActivated { get; set; }
+
+        public List<CourseStudentDto> CourseStudents { get; set; } = new List<CourseStudentDto>();
     }
 }

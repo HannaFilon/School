@@ -11,6 +11,7 @@ namespace School.DAL.Entities
         public Guid Id { get; set; }
 
         [Required]
+        [StringLength(150)]
         public string FullName { get; set; }
 
         [Required]
@@ -18,7 +19,6 @@ namespace School.DAL.Entities
         [Column(TypeName = "Date")]
         public DateTime DateOfBirth { get; set; }
 
-        [Required]
         [StringLength(150)]
         public string Address { get; set; }
     }

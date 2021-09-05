@@ -25,4 +25,8 @@
     <ProjectReference Include="..\School.DAL\School.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Courses\" />
+  </ItemGroup>
+
 </Project>

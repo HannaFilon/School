@@ -10,14 +10,13 @@ namespace School.DAL.Entities
     {
         public Guid Id { get; set; }
         [Required]
+        [StringLength(800)]
         public string Title { get; set; }
         [Required]
         public Guid TeacherId { get; set; }
         public Teacher Teacher { get; set; }
-
-        [Range(typeof(int), "0", "??")]
-        public int Amount { get; set; }
-
-        public List<CourseStudent> CourseStudents = new List<CourseStudent>();
+        [Required]
+        public bool IsActivated { get; set; }
+        public List<CourseStudent> CourseStudents { get; set; } = new List<CourseStudent>();
     }
 }

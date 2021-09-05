@@ -14,7 +14,6 @@ namespace School.DAL.UnitOfWork
         IRepository<Teacher> TeacherRepository { get; }
         IRepository<Course> CourseRepository { get; }
 
-        IRepository<CourseStudent> CourseStudentRepository { get; }
         public Task SaveChanges();
     }
 }
