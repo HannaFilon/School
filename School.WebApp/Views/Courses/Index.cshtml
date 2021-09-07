@@ -1,0 +1,66 @@
+﻿@model List<School.WebApp.Models.CourseViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<a class="btn btn-primary" asp-action="Add">Add New Course</a>
+<br />
+<br />
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Teacher
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var course in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => course.Title)
+            </td>
+            @if (course.IsActivated)
+            {
+                <td>
+                    Activated
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => course.TeachersFullName)
+                </td>
+                <td>
+                    <input type="button" id="btnRedirect" value="Redirect" />
+                    <script type="text/javascript">
+                $(function(){
+                $("#btnRedirect").click(function(){
+                    window.location.href = "@Url.Action("Info", "Teachers", new { Id = Guid.Parse(course.TeachersId) })";
+                    });
+                });
+                    </script>
+                </td>
+            }
+            else
+            {
+                <td>
+                    Disabled
+                </td>
+                <td>
+                    Not Assigned
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@course.Id"> Edit </a> |
+                    <a asp-action="Info" asp-route-id="@course.Id"> Info </a> |
+                    <a asp-action="Delete" asp-route-id="@course.Id"> Delete </a>
+                </td>
+            }
+        </tr>
+    }
+</table>

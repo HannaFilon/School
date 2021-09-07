@@ -21,9 +21,10 @@ namespace School.Business.Services.Implementation
             _mapper = mapper;
         }
 
-        public async Task<CourseDto> CreateCourse(CourseDto courseDto)
+        public async Task<CourseDto> AddCourse(CourseDto courseDto)
         {
             var course = _mapper.Map<Course>(courseDto);
+            course.Id = Guid.NewGuid();
             course.IsActivated = false;
             await _unitOfWork.CourseRepository.Add(course);
             await _unitOfWork.SaveChanges();
@@ -44,6 +45,7 @@ namespace School.Business.Services.Implementation
         {
             var course = await _unitOfWork.CourseRepository.Get()
                 .Include(c => c.CourseStudents)
+                .Include(c => c.Teacher)
                 .FirstOrDefaultAsync(c => c.Id == courseId);
             if (course == null)
             {

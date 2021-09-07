@@ -35,9 +35,10 @@ namespace School.Business.Services.Implementation
             return studentDto;
         }
 
-        public async Task<StudentDto> CreateStudent(StudentDto studentDto)
+        public async Task<StudentDto> AddStudent(StudentDto studentDto)
         {
             var student = _mapper.Map<Student>(studentDto);
+            student.Id = Guid.NewGuid();
             await _unitOfWork.StudentRepository.Add(student);
             await _unitOfWork.SaveChanges();
             _mapper.Map(student, studentDto);

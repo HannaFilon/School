@@ -10,10 +10,9 @@ namespace School.DAL.Entities
     {
         public Guid Id { get; set; }
         [Required]
-        [StringLength(800)]
+        [StringLength(50)]
         public string Title { get; set; }
-        [Required]
-        public Guid TeacherId { get; set; }
+        public Guid? TeacherId { get; set; }
         public Teacher Teacher { get; set; }
         [Required]
         public bool IsActivated { get; set; }

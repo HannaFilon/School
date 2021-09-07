@@ -4,6 +4,7 @@ using School.Business.ModelsDto;
 using School.Business.Services.Interfaces;
 using School.WebApp.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace School.WebApp.Controllers
@@ -19,45 +20,117 @@ namespace School.WebApp.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Info(Guid courseId)
+        public async Task<ActionResult> Index()
         {
-            var courseDto = await _courseService.GetCourse(courseId);
-
-            return View(courseDto);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(CourseModel courseModel)
-        {
-            if (courseModel == null)
+            var coursesDto = await _courseService.GetAllCourses();
+            if (coursesDto == null)
             {
-                return View("Bad Request");
+                return NotFound("No courses found.");
             }
-            var courseDto = _mapper.Map<CourseDto>(courseModel);
-            courseDto = await _courseService.CreateCourse(courseDto);
 
-            return View(courseDto);
+            var courseViewModels = _mapper.Map<List<CourseViewModel>>(coursesDto);
+
+            return View(courseViewModels);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Update(CourseModel courseModel) 
+        public async Task<ActionResult> Info(Guid? Id)
         {
-            if (courseModel == null)
+            if (!Id.HasValue)
             {
-                return View("Bad Request");
+                return BadRequest();
             }
-            var courseDto = _mapper.Map<CourseDto>(courseModel);
-            courseDto = await _courseService.UpdateCourse(courseDto);
 
-            return View(courseDto);
+            var courseDto = await _courseService.GetCourse(Id.Value);
+            var courseViewModel = _mapper.Map<CourseViewModel>(courseDto);
+
+            return View(courseViewModel);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Delete(Guid courseId) 
+        public ActionResult Add()
         {
-            await _courseService.DeleteCourse(courseId);
-
             return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Add(CourseViewModel courseViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var courseDto = _mapper.Map<CourseDto>(courseViewModel);
+            courseDto = await _courseService.AddCourse(courseDto);
+
+            return RedirectToAction("Info", new { Id = courseDto.Id });
+        }
+
+        public async Task<ActionResult> Edit(Guid? Id)
+        {
+            if (!Id.HasValue)
+            {
+                return NotFound();
+            }
+
+            var courseDto = await _courseService.GetCourse(Id.Value);
+            if (courseDto == null)
+            {
+                return NotFound();
+            }
+
+            var editCourseViewModel = _mapper.Map<CourseViewModel>(courseDto);
+
+            return View(editCourseViewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(Guid Id, [Bind("Id,Title")] CourseViewModel courseViewModel)
+        {
+            if (Id != courseViewModel.Id)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(courseViewModel);
+            }
+
+            var courseDto = await _courseService.GetCourse(Id);
+            if (courseViewModel.Title != courseDto.Title)
+            {
+                _mapper.Map(courseViewModel, courseDto);
+                await _courseService.UpdateCourse(courseDto);
+            }
+
+            return RedirectToAction("Info", new { Id = Id });
+        }
+
+        public async Task<ActionResult> Delete(Guid? Id)
+        {
+            if (!Id.HasValue)
+            {
+                return BadRequest();
+            }
+
+            var courseDto = await _courseService.GetCourse(Id.Value);
+            if (courseDto == null)
+            {
+                return NotFound();
+            }
+
+            var courseViewModel = _mapper.Map<CourseViewModel>(courseDto);
+
+            return View(courseViewModel);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(Guid Id)
+        {
+            await _courseService.DeleteCourse(Id);
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using School.Business;
 using School.Business.Services.Implementation;
 using School.Business.Services.Interfaces;
 using School.DAL;
@@ -32,8 +31,11 @@ namespace School.WebApp
             services.AddAutoMapper(typeof(AutoMap));
             services.AddSwaggerGen();
 
+            services.AddRazorPages();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<ICourseRepository, CourseRepository>();
 
             services.AddScoped<IStudentService,StudentService>();
             services.AddScoped<ITeacherService,TeacherService>();

@@ -17,8 +17,10 @@ namespace School.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<CourseStudent>().HasKey(sc => new { sc.StudentId, sc.CourseId });
-        }
 
+            modelBuilder.Entity<CourseStudent>().HasKey(sc => new { sc.StudentId, sc.CourseId });
+            modelBuilder.Entity<Course>().Property(c=>c.TeacherId).IsRequired(false);
+
+        }
     }
 }

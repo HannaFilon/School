@@ -1,4 +1,4 @@
-﻿@model School.WebApp.Models.CourseModel
+﻿@model School.WebApp.Models.CourseViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -15,10 +15,10 @@
             @Html.DisplayNameFor(model => model.Title)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
+            @Model.Title
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActivated)
+            <span>Status</span>
         </dt>
         <dd class="col-sm-10">
             @if (Model.IsActivated)
@@ -28,6 +28,18 @@
             else
             {
                 <span>Disabled</span>
+            }
+        <dt class="col-sm-2">
+            <span>Teacher</span>
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.IsActivated)
+            {
+                @Html.DisplayFor(model => model.TeachersFullName)
+            }
+            else
+            {
+                <span>Not Assigned</span>
             }
         </dd>
     </dl>
