@@ -20,9 +20,9 @@ namespace School.WebApp
                    .WriteTo.Logger(l => l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Debug)
                        .WriteTo.File(new CompactJsonFormatter(), @"Logs\\debug.log"))
                    .WriteTo.Logger(l => l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Warning)
-                       .WriteTo.File(new CompactJsonFormatter(), @"Logs\\warn.log"))
+                       .WriteTo.File(new CompactJsonFormatter(), @"Logs\\warning.log"))
                    .WriteTo.Logger(l => l.Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Error || e.Level == LogEventLevel.Fatal)
-                       .WriteTo.File(new CompactJsonFormatter(), @"Logs\\err.log"))
+                       .WriteTo.File(new CompactJsonFormatter(), @"Logs\\error.log"))
                    .WriteTo.Console()
                    .CreateLogger();
 
